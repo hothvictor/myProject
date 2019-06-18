@@ -1,0 +1,463 @@
+/**
+ * This file is for overriding some default bootstrap styles.
+ *
+ * > NOTE THAT THIS FILE AFFECTS GLOBAL STYLES.
+ */
+
+// lesshint-disable
+* {
+  box-sizing: border-box;
+}
+
+// lesshint-enable
+
+img {
+  display: block;
+}
+
+// Get rid of weird background on <a>s with button styles
+.btn,
+[type='button'] {
+  -webkit-appearance: none;
+}
+
+// Custom modal styles
+.modal-backdrop {
+  background-color: @accent-white;
+
+  &.show {
+    opacity: 0.95;
+  }
+}
+
+
+
+
+.modal {
+  -webkit-overflow-scrolling: touch; //« makes this actually scrollable on certain phones
+
+  .petticoat {
+    position: fixed;
+    width: 100%;
+    height: 75px; // should cover topbar
+    z-index: 50;
+    left: 0px;
+    top: 0px;
+    background-color: @accent-white;
+  }
+
+  .modal-dialog {
+    z-index: 100;
+    position: relative;
+    max-width: 700px;
+  }
+
+  .modal-content {
+    max-width: 700px;
+    border-radius: 0px;
+    border-color: @accent-white;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+    .modal-header {
+      border-bottom: none;
+      display: block;
+      position: relative;
+      text-align: center;
+      padding-bottom: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
+
+      .modal-close-button {
+        .btn-reset();
+        width: 32px;
+        height: 32px;
+        padding: 6px;
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        background-image: url('/images/icon-close.png');
+        background-size: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.8;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      .modal-title {
+        font-weight: @bold;
+      }
+
+      .modal-intro {
+        margin-left: auto;
+        margin-right: auto;
+        color: @text-muted;
+        margin-bottom: 20px;
+      }
+
+      hr {
+        margin-top: 25px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+        width: 100px;
+        height: 2px;
+        border-top: 2px solid @brand;
+      }
+    }
+
+    .modal-body {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 0px;
+      padding-right: 0px;
+
+      .section-heading {
+        margin-top: 25px;
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid @border-lt-gray;
+      }
+    }
+
+    .modal-footer {
+      padding-top: 25px;
+      padding-bottom: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      border-top: 1px solid @border-lt-gray;
+      margin-top: 10px;
+
+      &.no-border {
+        border-top: 0px;
+        padding-top: 10px;
+        margin-top: 0px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .modal-content {
+      .modal-header {
+        .modal-close-button {
+          right: -20px;
+          top: -45px;
+        }
+      }
+    }
+  }
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+.thingbutton {
+  float: right;
+  background-color: white;
+  border-color: rgba(0, 0, 0, 0);
+}
+
+.shopbutton {
+  background-color: rgb(255, 255, 255);
+  border-color: rgba(255, 255, 255, 0);
+}
+
+.managebutton {
+  background-color: #efefef;
+  border-color: rgba(0, 0, 0, 0);
+}
+
+.map-container-6 {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+}
+
+.map-container-6 iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.hints {
+  color: grey;
+}
+
+th {
+  cursor: pointer;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 5px;
+}
+
+.bg-clinic {
+  background-color: white
+}
+
+.bg-darkgrey {
+  background-color: rgb(22, 22, 22) !important
+}
+
+.clinic-bg {
+  background-color: #e5efff;
+
+}
+
+.card-content {
+  border: 0px solid #e6e6e6;
+  background-color: rgba(255, 255, 255, 0.90);
+  box-shadow: 0px -1px 2px rgba(49, 49, 49, 0.158), 1px 1px 2px rgba(58, 58, 58, 0.623);
+}
+
+.card-tran {
+  border: 0px solid #b4b4b47e;
+  background-color: rgba(255, 255, 255, 0.90) !important;
+  box-shadow: 0px -1px 2px rgba(58, 58, 58, 0.1), 1px 1px 2px rgba(58, 58, 58, 0.1);
+}
+
+.inner {
+  padding: 1rem 1rem 1rem 1rem;
+}
+
+.btn-primary {
+  color: white !important
+}
+
+.bg-hidden {
+  background-color: #efefef;
+}
+
+.hidden {
+  visibility: hidden;
+  clear: both;
+}
+
+.primary {
+  color: #007bff
+}
+
+body {
+  // background-image: url("/images/apple-desk-keyboard-6416.jpg") !important;
+  // background-repeat:no-repeat;
+
+  // background-size:cover;
+}
+
+.top-bg {
+  background-image: url("/images/computer-desk-doctor-48604.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login-bg {
+  background-image: url("/images/4k-wallpaper-clean-desk-1420701.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.phone-bg {
+  background-image: url("/images/antique-black-cable-821754.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.booking-bg {
+  background-image: url("/images/plush-design-studio-483666-unsplash.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+
+}
+
+.pen-bg {
+  background-image: url("/images/art-artist-background-316466.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.event-bg {
+  background-image: url("/images/above-art-background-733852.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  background-attachment: fixed;
+}
+
+.pink-bg {
+  background-image: url("/images/apple-background-connection-399161.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+
+}
+
+.eventevent-bg {
+  background-image: url("/images/jan-kahanek-184676-unsplash.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+
+}
+
+.shop-bg {
+  background-image: url("/images/arvin-chingcuangco-1337417-unsplash.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  background-attachment: fixed;
+
+}
+
+.homeShop-bg {
+  background-image: url("/images/arvin-chingcuangco-1337417-unsplash.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  background-attachment: local;
+
+}
+
+.clinic-bg {
+  background-image: url("/images/gabriele-diwald-523962-unsplash.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.desk-bg {
+  background-image: url("/images/blank-business-clean-891679.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.news-bg {
+  background-image: url("/images/leone-venter-559377-unsplash.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.apple-bg {
+  background-image: url("/images/apple-desk-keyboard-6416.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  background-attachment: fixed;
+}
+
+.signup-bg {
+  background-image: url("/images/above-art-background-733852.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+
+.bg-black {
+  background-color: black
+}
+
+.black {
+  color: black
+}
+
+.right {
+  position: absolute;
+  right: 0;
+}
+
+.select.selectDrop {
+  display: none;
+}
+
+#full-stars-example {
+
+  .rating-group {
+    display: inline-flex;
+  }
+
+  /* make hover effect work properly in IE */
+  .rating__icon {
+    pointer-events: none;
+  }
+
+  /* hide radio inputs */
+  .rating__input {
+    position: absolute !important;
+    left: -9999px !important;
+  }
+
+  /* set icon padding and size */
+  .rating__label {
+    cursor: pointer;
+    padding: 0 0.1em;
+    font-size: 2rem;
+  }
+
+  /* set default star color */
+  .rating__icon--star {
+    color: orange;
+  }
+
+  /* set color of none icon when unchecked */
+  .rating__icon--none {
+    color: #eee;
+  }
+
+  /* if none icon is checked, make it red */
+  .rating__input--none:checked+.rating__label .rating__icon--none {
+    color: red;
+  }
+
+  /* if any input is checked, make its following siblings grey */
+  .rating__input:checked~.rating__label .rating__icon--star {
+    color: #ddd;
+  }
+
+  /* make all stars orange on rating group hover */
+  .rating-group:hover .rating__label .rating__icon--star {
+    color: orange;
+  }
+
+  /* make hovered input's following siblings grey on hover */
+  .rating__input:hover~.rating__label .rating__icon--star {
+    color: #ddd;
+  }
+
+  /* make none icon grey on rating group hover */
+  .rating-group:hover .rating__input--none:not(:hover)+.rating__label .rating__icon--none {
+    color: #eee;
+  }
+
+  /* make none icon red on hover */
+  .rating__input--none:hover+.rating__label .rating__icon--none {
+    color: red;
+  }
+}
+
+.pt-6,
+.py-6 {
+  padding-top: 3.5rem !important;
+}
+
+

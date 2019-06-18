@@ -1,0 +1,24 @@
+<% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
+<p style="margin-bottom: 25px;">Dear
+  <%= user %>,</p>
+<img class="hero" style="background-size: cover; width: 100%;" src="<%= imageSrc %>" alt="">
+<p style="margin-bottom: 25px;">
+  <%= eventName %>. </p>
+<p>Date:
+  <%= date %>
+</p>
+<p style="white-space:pre-line; ">Details:
+  <%= eventDetail %>
+</p>
+
+<div style="margin-bottom: 25px; text-align: center;">
+  <a style="background-color: #00ACC4; display: inline-block; font-size: 1.1em; color: #fff; padding: 10px 35px 10px; font-weight: 500; text-decoration: none; border-radius: 7px;"
+    href="<%= url.resolve(sails.config.custom.baseUrl,'/events') %>">View event</a>
+</div>
+<p style="margin-bottom: 5px;">Sincerely,</p>
+<p style="margin-top: 0px;">e-Clinic HK</p>
+
+<p style="margin-top: 30px; margin-bottom: 5px; text-align: center;">
+  <a style="color: #00ACC4; word-wrap: break-word;" href="<%= url.resolve(sails.config.custom.baseUrl,'/events/unsubscribe')+'?email='+ email %>">
+    unsubscribe</a>
+</p>

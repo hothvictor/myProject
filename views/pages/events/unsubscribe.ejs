@@ -1,0 +1,30 @@
+<div id="unsubscribe" v-cloak>
+  <div class="container card card-tran pb-5">
+    <h1 class="text-center  pt-5">Unsubscribe</h1>
+    <div class="unsubscribe-form" v-if="!cloudSuccess">
+      <hr />
+      <ajax-form action="unsubscribeEvents" :syncing.sync="syncing" :cloud-error.sync="cloudError" @submitted="submittedForm()"
+        :handle-parsing="handleParsingForm">
+        <div class="form-group">
+          <label for="password">Unsubscribe email</label>
+          <input class="form-control" type="text" :class="[formErrors.email ? 'is-invalid' : '']" v-model="formData.email = email">
+          <div class="invalid-feedback" v-if="formErrors.email">Please enter a password.</div>
+        </div>
+
+        <p class="text-danger" v-if="cloudError"><small>An error occured while processing your request. Please check
+            your information and try again, or <a href="/contact">contact support</a> if the error persists.</small></p>
+        <div class="form-group">
+          <ajax-button type="submit" :syncing="syncing" class="btn btn-danger btn-lg btn-block">Unsubscribe</ajax-button>
+        </div>
+      </ajax-form>
+    </div>
+
+    <!-- Success message -->
+    <div class="success-message" v-if="cloudSuccess">
+      <p class="text-center">Unsubscribed.</p>
+      <hr />
+      <p>You can subscribe our latest events again anytime anywhere.</p>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

@@ -1,0 +1,123 @@
+<div id="available-shop" class="shop-bg pb-5" v-cloak>
+  <main class="pt-3 pb-5" role="scroll-destination5">
+    <div class="container">
+      <div class="form-group right col-4 right">
+        <input v-if="selectedKeyWord != null" class="form-control" type="text" v-model="search = selectedKeyWord" placeholder="Search" >
+        <input v-else class="form-control" type="text" v-model="search" placeholder="Search" >
+        <a  href="JavaScript:void(0)"><span class="mt-2"  @click="clickKeyWord('香港')">香港</span></a> 
+        <a  href="JavaScript:void(0)"><span class="mt-2"  @click="clickKeyWord('九龍')">九龍</span></a> 
+        <a  href="JavaScript:void(0)"><span class="mt-2"  @click="clickKeyWord('新界')">新界</span></a> 
+      </div>
+
+      <section id="examples" class="text-center">
+        <!-- <% if( me && me.shopOwner === 'Yes') { %>
+        <button class="btn btn-warning btn-md waves-effect waves-light mx-auto" style="width: 200px; float: right;"
+          title="Add" @click="clickAddButton()">Create bike shop</button>
+        <% } %> -->
+        <!-- Heading -->
+        <h2 class="mb-5 font-weight-bold">Clinics</h2>
+
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-12 mb-4" :key="'shop'+shop.id" v-for="shop in filterShop.slice().reverse()">
+            <div class="card card-content">
+              <div class="view overlay z-depth-1-half inner">
+                <a :href="'shop/' + shop.id"><img :src="shop.imageSrc" class="img-fluid" alt=""></a>
+                <div class="mask rgba-white-slight">
+                </div>
+              </div>
+              <a :href="'shop/' + shop.id">
+                <h4 class="my-4 font-weight-bold">{{shop.shopName}}</h4>
+              </a>
+
+              <div class="waitingTime">
+                <p> Estimating waiting time:</p>
+                <p v-if="shop.waitingTime > 99">
+                  <span class="badge badge-pill badge-danger">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p v-else-if="shop.waitingTime > 29">
+                  <span class="badge badge-pill badge-warning">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p v-else-if="shop.waitingTime > 0">
+                  <span class="badge badge-pill badge-success">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p v-else-if="shop.waitingTime == 0">
+                  <span class="badge badge-pill badge-secondary">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p>Updated at: {{shop.updateTime.slice(15, 21)}}</p>
+
+              </div>
+
+              <div class="rating inner">
+                <!-- ratings -->
+                <!-- <span>Ratings: </span> -->
+                <!-- <span class="heading">Rating:</span> -->
+                <span v-if="shop.ratings >= 1" class="fa fa-star checked"></span>
+                <span v-else class="fa fa-star"></span>
+
+                <span v-if="shop.ratings >= 2" class="fa fa-star checked"></span>
+                <span v-else class="fa fa-star"></span>
+
+                <span v-if="shop.ratings >= 3" class="fa fa-star checked"></span>
+                <span v-else class="fa fa-star"></span>
+
+                <span v-if="shop.ratings >= 4" class="fa fa-star checked"></span>
+                <span v-else class="fa fa-star"></span>
+
+                <span v-if="shop.ratings >= 5" class="fa fa-star checked"></span>
+                <span v-else class="fa fa-star"></span>
+
+                <!-- <p>{{shop.ratings}} average based on 254 reviews.</p> -->
+              </div>
+              <div class="inner">
+                <p class="grey-text"><i class="fas fa-map-marker-alt"></i>{{shop.address}}.</p>
+                <!-- <p class="text-muted">{{shop.shopDetail}}</p> -->
+                <!-- delete button -->
+                <!-- <% if(me && me.isSuperAdmin == true){ %>
+                <button class="options-button shopbutton" title="Delete" @click="clickDeleteShop(shop.id)">
+                  <i class="far fa-trash-alt text-danger"></i>
+                </button>
+                <% } %> -->
+              </div>
+
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </section>
+    </div>
+  </main>
+
+  <% /* "confirm Delete Shop" Modal */ %>
+  <!-- <modal v-if="confirmDeleteShopModalOpen && selectedShop" v-cloak key="delete" @close="closeDeleteShopModal()">
+    <ajax-form action="destroyShop" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteShopForm"
+      @submitted="submittedDeleteShopForm()">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+        <h5 style="color:black">Are you sure to remove this shop?</h5>
+
+      </div>
+      <hr>
+      <div class="modal-body">
+        <button type="submit" class="btn btn-danger ml-1 center">Remove</button>
+      </div>
+    </ajax-form>
+  </modal> -->
+
+
+
+</div>
+
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

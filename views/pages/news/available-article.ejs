@@ -1,0 +1,257 @@
+
+<div id="available-article" v-cloak>
+  <br><br><br><br>
+  <div class="container">
+
+    <div class="row" v-if="newss.length > 0">
+
+      <!-- Post Content Column -->
+      <div class="col-lg-8" :key="'news'+news.id" v-for="news in newss">
+
+        <!-- Title -->
+        <h1 class="mt-4">{{news.newsName}}</h1>
+        <!-- <div class="text-right"> -->
+        <!-- Share: -->
+        <!-- AddToAny BEGIN -->
+        <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+          <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+          <a class="a2a_button_facebook"></a>
+          <a class="a2a_button_whatsapp"></a>
+          <a class="a2a_button_line"></a>
+          <a class="a2a_button_wechat"></a>
+        </div>
+        <!-- AddToAny END -->
+        <!-- <a href=""><i class="fab fa-facebook-square fa-lg"></i></a>
+          <a href=""><i class="fab fa-whatsapp-square fa-lg"></i></a>
+          <a href=""><i class="fab fa-line fa-lg"></i></a>
+          <a href=""><i class="fab fa-weixin fa-lg"></i></a> -->
+        <!-- </div> -->
+
+        <div class="text-left mt-3">
+          {{news.date}}
+        </div>
+
+        <!-- Author -->
+        <!-- <p class="lead">
+          by
+          <a href="#">Alex Ballinger</a>
+        </p> -->
+        <!-- <hr  class="hidden"> -->
+        <hr class="hidden">
+
+        <!-- Preview Image -->
+        <img class="img-fluid rounded card-content" :src="news.imageSrc" alt="">
+
+        <hr class="hidden">
+
+        <!-- Post Content -->
+        <p style="white-space:pre-line; ">{{news.newsDetail}}</p>
+        <hr class="hidden">
+        <!-- <h6>View the full article at <a :href="news.newsSrc" target="_blank">{{news.newsSrc}}</h6></a> -->
+        <hr class="hidden">
+
+        <!-- Single Comment -->
+        <div class="media mb-4" :key="'comment'+comment.id" v-for="comment in comments">
+          <img style="height:40px; width:40px;" class="d-flex mr-3 rounded-circle" src="/images/user-1633249__340.png"
+            alt="">
+          <div class="media-body">
+            <h5 class="mt-0">{{comment.owner.fullName}}</h5>
+            {{comment.comment}}
+            <% if(me  && me.isSuperAdmin == true) { %>
+            <!-- delete button -->
+            <button class="options-button thingbutton" title="Delete" @click="clickDeleteComment(comment.id)">
+              <i class="far fa-trash-alt text-danger" style="float:right"></i>
+            </button>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Comments  -->
+        <% if(!me) { %>
+        <div class="card my-4">
+          <h5 class="card-header">Leave a Comment:</h5>
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <textarea disabled class="form-control" rows="3" placeholder="Please Login first"></textarea>
+              </div>
+              <button disabled type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+
+
+        <% if(me&&me.emailStatus == 'unconfirmed' | me.emailStatus == 'changeRequested') { %>
+        <div class="card my-4">
+          <h5 class="card-header">Leave a Comment:</h5>
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <textarea disabled class="form-control" rows="3" placeholder="Please confirm email."></textarea>
+              </div>
+              <button disabled type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+
+
+        <%  if(me && me.emailStatus !== 'unconfirmed' && me.emailStatus !== 'changeRequested') { %>
+        <!-- Comments Form Logged In -->
+        <div class="card my-4">
+          <h5 class="card-header">Leave a Comment: </h5>
+          <div class="card-body">
+            <ajax-form action="uploadComment" :syncing.sync="syncing" :cloud-error.sync="cloudError" @submitted="submittedForm($event)"
+              :handle-parsing="handleParsingForm">
+              <div class="form-group">
+                <input hidden type="number" :v-model="formData.article = news.id">
+                <textarea class="form-control" rows="3" :class="[formErrors.comment ? 'is-invalid' : '']" v-model="formData.comment"></textarea>
+                <div class="invalid-feedback" v-if="formErrors.comment">Please enter comment.</div>
+              </div>
+              <ajax-button type="submit" class="btn btn-primary" :syncing="syncing">Submit</ajax-button>
+            </ajax-form>
+          </div>
+        </div>
+        <% } %>
+
+
+
+        <!-- Comment with nested comments -->
+        <!-- <div class="media mb-4">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                  <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
+                    odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                    fringilla. Donec lacinia congue felis in faucibus.
+
+                    <div class="media mt-4">
+                      <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                      <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
+                        odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                        fringilla. Donec lacinia congue felis in faucibus.
+                      </div>
+                    </div>
+
+                    <div class="media mt-4">
+                      <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                      <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
+                        odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
+                        fringilla. Donec lacinia congue felis in faucibus.
+                      </div>
+                    </div>
+
+                  </div>
+                </div> -->
+
+      </div>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Search Widget -->
+        <!-- <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- Categories Widget -->
+        <!-- <div class="card my-4">
+          <h5 class="card-header">Categories</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <a href="#">Tour de france</a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+
+        <!-- Side Widget -->
+        <div class="card my-4 card-content">
+          <i class="fas fa-ad"></i>
+          <a href=""><iframe class="card-img-top inner" src="https://www.youtube.com/embed/2jqE1JCgk-E" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </a>
+          <a href="https://www.aia.com.hk/zh-hk/taxdeductible.html?cmpid=banner-hk-bnc-2019040104_adcopy4_0329">
+            <h5 class="card-body">AIA「20/30歲友扣稅懶人全包宴」</h5>
+          </a>
+          <h6 class="card-body" style="float:right">「全城最低價」
+            如果有其他公司更低，保證下年將差價退還給你﹗</h6>
+
+
+          <!-- <div class="card-body">
+
+            </div> -->
+        </div>
+
+        <!-- Hot News -->
+        <hr class="hidden">
+        <h5>Hot news:</h5>
+        <!-- Side Widget -->
+        <div class="card my-4 card-content" v-for="suggest in suggests" :key="'news'+suggest.id">
+          <a :href="suggest.id"><img class="card-img-top inner" :src="suggest.imageSrc">
+
+            <a :href="suggest.id">
+              <h5 class="card-body">{{suggest.newsName}}</h5>
+            </a>
+            <h6 class="card-body" style="float:right">views: {{suggest.views}}</h6>
+
+          </a>
+          <!-- <div class="card-body">
+
+          </div> -->
+        </div>
+
+
+
+
+
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+
+  <!-- pop up form (modal) -->
+  <% /* "confirm Delete News" Modal */ %>
+  <modal v-if="confirmDeleteCommentModalOpen && selectedComment" v-cloak key="delete" @close="closeDeleteCommentModal()">
+    <ajax-form action="destroyComment" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteCommentForm"
+      @submitted="submittedDeleteCommentForm()">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+        <h5 style="color:black">Are you sure to remove this comment?</h5>
+
+      </div>
+      <hr class="hidden">
+      <div class="modal-body">
+        <button type="submit" class="btn btn-danger ml-1 center">Remove</button>
+      </div>
+    </ajax-form>
+  </modal>
+</div>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

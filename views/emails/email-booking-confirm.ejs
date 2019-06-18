@@ -1,0 +1,29 @@
+<% /* Note: This is injected into `views/layouts/layout-email.ejs` */ %>
+<p style="margin-bottom: 25px;">Dear
+  <%= user %>,</p>
+<p style="margin-bottom: 25px;">Your booking is confirmed by
+  <%= shopName %>. </p>
+<p>Time:
+  <%= time %>
+</p>
+<p>Date:
+  <%= date %>
+</p>
+<p>Remarks:
+  <%= remarks %>
+</p>
+<p>Status:
+  <%= status %>
+</p>
+<p>Code:
+  <strong style="color:green">
+    <%= code %>
+  </strong>
+</p>
+
+<div style="margin-bottom: 25px; text-align: center;">
+  <a style="background-color: #00ACC4; display: inline-block; font-size: 1.1em; color: #fff; padding: 10px 35px 10px; font-weight: 500; text-decoration: none; border-radius: 7px;"
+    href="<%= url.resolve(sails.config.custom.baseUrl,'/booking') %>">View booking</a>
+</div>
+<p style="margin-bottom: 5px;">Sincerely,</p>
+<p style="margin-top: 0px;">e-Clinic HK</p>

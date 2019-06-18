@@ -1,0 +1,105 @@
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<div id="news-health" class="apple-bg" v-cloak>
+  <div id="loading"></div>
+
+  <main id="app" class="mb-5">
+
+    <!--Main container-->
+    <div class="container mb-5">
+      <section id="gallery" class="mb-5">
+        <!-- Heading -->
+        <h2 class="mb-5 font-weight-bold text-center">News</h2>
+
+        <!-- Loop -->
+        <!--Grid row-->
+        <div class="row">
+          <!-- <section v-if="errored">
+            <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+          </section> -->
+
+          <!-- <div v-if="loading">Loading...</div> -->
+
+
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-12 mb-4" v-for="article in results ">
+            <!--Card-->
+            <div class="card  card-content">
+
+              <!--Card image-->
+              <div class="view overlay">
+                <a :href="article.url" target="_blank"><img :src="article.urlToImage" class="card-img-top" alt=""></a>
+              </div>
+
+              <!--Card content-->
+              <div class="card-body">
+                <!--Title-->
+                <a style="color:#009dff" :href="article.url" target="_blank">
+                  <h4 class="card-title" style="color:#009dff">{{article.title}}</h4>
+                </a>
+                <label for="date">Date: {{article.publishedAt}}</label>
+                <!--Text-->
+                <p class="text-muted">
+                  {{article.description}}
+                </p>
+                <a :href="article.url" target="_blank" class="btn btn-primary btn-md waves-effect waves-light">Read
+                  more </a>
+                <p>Source: {{article.source.name}}</p>
+              </div>
+            </div>
+            <!--/.Card-->
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+      </section>
+    </div>
+  </main>
+
+
+</div>
+<script>
+  jQuery(document).ready(function () {
+    jQuery('#loading').fadeOut(3000);
+  });
+
+</script>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
+
+<!-- <script>
+  new Vue({
+    el: '#app',
+    // data() {
+    //   return {
+    //     // article: null,
+    //     // info: null,
+    //     loading: true,
+    //     errored: false
+    //   }
+    // },
+    data: {
+      results: []
+    },
+    mounted() {
+      axios.get('https://newsapi.org/v2/everything?q=health&apiKey=083be1c3a4914b3fbc8134118e730ddf')
+        .then(response => {
+          this.results = response.data.articles
+          // this.article = response.data
+
+        })
+        .catch(error => {
+          console.log(error)
+          // this.errored = true
+        })
+      // .finally(() => this.loading = false)
+    }
+  })
+
+</script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->

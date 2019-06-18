@@ -1,0 +1,775 @@
+<div class="shop-bg" id="shop-details" v-cloak>
+  <br><br><br>
+  <main class="pt-5" :key="'shop'+shop.id" v-for="shop in shops">
+    <div class="container pb-5">
+
+      <section id="gallery">
+
+        <!-- Heading -->
+        <h2 class="mb-5 font-weight-bold text-center">{{shop.shopName}}</h2>
+        <!-- Loop -->
+        <!--Grid row-->
+        <div class="row">
+
+          <!--Grid column-->
+          <div class="col-md-6 mb-4">
+
+            <!--Carousel Wrapper-->
+            <div id="carousel-example-1z" class="carousel slide carousel-fade carousel-fade" data-ride="carousel">
+              <!--Slides-->
+              <div class="carousel-inner z-depth-1-half card card-content" role="listbox">
+                <div class="carousel-item active">
+                  <img class="d-block w-100 card card-content inner" :src="shop.imageSrc" :alt="shop.shopName">
+                </div>
+              </div>
+            </div>
+            <!--/.Carousel Wrapper-->
+
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-md-6  mb-4   text-center">
+            <div class="card card-content">
+              <!--Excerpt-->
+              <!-- <a href="" class="teal-text">
+                  <h6 class="pb-1"><i class="fas fa-bicycle"></i><strong>OUR CONTACT STORY</strong></h6>
+                </a> -->
+              <h5 class="mb-3 pt-5"><strong>{{shop.shopName}}</strong></h5>
+              <p class="font_8" style="white-space:pre-line; ">{{shop.shopDetail}}</h5>
+                <p> Estimating waiting time:</p>
+                <p v-if="shop.waitingTime > 99">
+                  <span class="badge badge-pill badge-danger">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p v-else-if="shop.waitingTime > 29">
+                  <span class="badge badge-pill badge-warning">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p v-else-if="shop.waitingTime > 0">
+                  <span class="badge badge-pill badge-success">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p v-else-if="shop.waitingTime == 0">
+                  <span class="badge badge-pill badge-secondary">{{shop.waitingTime}}
+                    minutes</span>
+                </p>
+
+                <p>Updated at: {{shop.updateTime.slice(4, 21)}}</p>
+
+            </div>
+          </div>
+          <!--Grid column-->
+        </div>
+
+        <!-- rating -->
+        <div class="card card-content  inner">
+          <div class="">
+            <span class="heading">Rating:</span>
+            <span v-if="shop.ratings >= 1" class="fa fa-star checked"></span>
+            <span v-else class="fa fa-star"></span>
+
+            <span v-if="shop.ratings >= 2" class="fa fa-star checked"></span>
+            <span v-else class="fa fa-star"></span>
+
+            <span v-if="shop.ratings >= 3" class="fa fa-star checked"></span>
+            <span v-else class="fa fa-star"></span>
+
+            <span v-if="shop.ratings >= 4" class="fa fa-star checked"></span>
+            <span v-else class="fa fa-star"></span>
+
+            <span v-if="shop.ratings >= 5" class="fa fa-star checked"></span>
+            <span v-else class="fa fa-star"></span>
+
+            <p class="pt-1">{{shop.ratings}} average based on <span>
+                {{bookings.length}} </span> reviews.</p>
+          </div>
+          <div class="side">
+            <div>5 star</div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div v-for="booking in countStar5.slice(0,1)"
+                v-if="countStar5.length/bookings.length*100 > 80 && booking.shop == shop.id" class="bar-5">
+                <span class="right pr-5 black">
+                  {{countStar5.length}}
+                </span>
+              </div>
+              <div v-else-if="countStar5.length/bookings.length*100 > 60 && booking.shop == shop.id" class="bar-4"><span
+                  v-for="booking in countStar5.slice(0,1)" v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar5.length}} </span>
+              </div>
+              <div v-else-if="countStar5.length/bookings.length*100 > 40 && booking.shop == shop.id" class="bar-3"><span
+                  v-for="booking in countStar5.slice(0,1)" v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar5.length}} </span>
+              </div>
+              <div v-else-if="countStar5.length/bookings.length*100 > 20 && booking.shop == shop.id" class="bar-2"><span
+                  v-for="booking in countStar5.slice(0,1)" v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar5.length}} </span>
+              </div>
+              <div v-else-if="countStar5.length/bookings.length*100 > 0 && booking.shop == shop.id" class="bar-1"><span
+                  v-for="booking in countStar5.slice(0,1)" v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar5.length}} </span>
+              </div>
+            </div>
+          </div>
+          <div class="side">
+            <div>4 star</div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div v-for="booking in countStar4.slice(0,1)"
+                v-if="countStar4.length/bookings.length*100 > 80 && booking.shop == shop.id" class="bar-5"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar4.length}} </span>
+              </div>
+              <div v-else-if="countStar4.length/bookings.length*100 > 60 && booking.shop == shop.id" class="bar-4"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar4.length}} </span>
+              </div>
+              <div v-else-if="countStar4.length/bookings.length*100 > 40 && booking.shop == shop.id" class="bar-3"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar4.length}} </span>
+              </div>
+              <div v-else-if="countStar4.length/bookings.length*100 > 20 && booking.shop == shop.id" class="bar-2"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar4.length}} </span>
+              </div>
+              <div v-else-if="countStar4.length/bookings.length*100 > 0 && booking.shop == shop.id" class="bar-1"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar4.length}} </span>
+              </div>
+            </div>
+          </div>
+          <div class="side">
+            <div>3 star</div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div v-for="booking in countStar3.slice(0,1)"
+                v-if="countStar3.length/bookings.length*100 > 80 && booking.shop == shop.id" class="bar-5"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar3.length}} </span>
+              </div>
+              <div v-else-if="countStar3.length/bookings.length*100 > 60 && booking.shop == shop.id" class="bar-4"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar3.length}} </span>
+              </div>
+              <div v-else-if="countStar3.length/bookings.length*100 > 40 && booking.shop == shop.id" class="bar-3"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar3.length}} </span>
+              </div>
+              <div v-else-if="countStar3.length/bookings.length*100 > 20 && booking.shop == shop.id" class="bar-2"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar3.length}} </span>
+              </div>
+              <div v-else-if="countStar3.length/bookings.length*100 > 0 && booking.shop == shop.id" class="bar-1"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar3.length}} </span>
+              </div>
+            </div>
+          </div>
+          <div class="side">
+            <div>2 star</div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div v-for="booking in countStar2.slice(0,1)"
+                v-if="countStar2.length/bookings.length*100 > 80 && booking.shop == shop.id" class="bar-5"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar2.length}} </span>
+              </div>
+              <div v-else-if="countStar2.length/bookings.length*100 > 60 && booking.shop == shop.id" class="bar-4"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar2.length}} </span>
+              </div>
+              <div v-else-if="countStar2.length/bookings.length*100 > 40 && booking.shop == shop.id" class="bar-3"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar2.length}} </span>
+              </div>
+              <div v-else-if="countStar2.length/bookings.length*100 > 20 && booking.shop == shop.id" class="bar-2"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar2.length}} </span>
+              </div>
+              <div v-else-if="countStar2.length/bookings.length*100 > 0 && booking.shop == shop.id" class="bar-1"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar2.length}} </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="side">
+            <div>1 star</div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div v-for="booking in countStar1.slice(0,1)"
+                v-if="countStar1.length/bookings.length*100 > 80 && booking.shop == shop.id" class="bar-5"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar1.length}} </span>
+              </div>
+              <div v-else-if="countStar1.length/bookings.length*100 > 60 && booking.shop == shop.id" class="bar-4"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar1.length}} </span>
+              </div>
+              <div v-else-if="countStar1.length/bookings.length*100 > 40 && booking.shop == shop.id" class="bar-3"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar1.length}} </span>
+              </div>
+              <div v-else-if="countStar1.length/bookings.length*100 > 20 && booking.shop == shop.id" class="bar-2"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar1.length}} </span>
+              </div>
+              <div v-else-if="countStar1.length/bookings.length*100 > 0 && booking.shop == shop.id" class="bar-1"><span
+                  v-if="booking.shop == shop.id" class="right pr-5 black">
+                  {{countStar1.length}} </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- comment -->
+        <div id="carouselContent" class="carousel slide card-content card  mt-3" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active text-center p-4" v-for="review in bookings.slice(0,1)">
+              <span v-if="review.ratings >= 1" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="review.ratings >= 2" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="review.ratings >= 3" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="review.ratings >= 4" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="review.ratings >= 5" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+              <p class="pt-3">{{review.feedback}}</p>
+              <p>by <strong>{{review.customer.fullName}}</strong></p>
+
+            </div>
+            <div class="carousel-item text-center p-4" v-for="reviews in bookings.slice().reverse()">
+              <span v-if="reviews.ratings >= 1" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="reviews.ratings >= 2" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="reviews.ratings >= 3" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="reviews.ratings >= 4" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+
+              <span v-if="reviews.ratings >= 5" class="fa fa-star checked"></span>
+              <span v-else class="fa fa-star"></span>
+              <p class="pt-3" style="white-space:pre-line; ">{{reviews.feedback}}</p>
+              <p>by <strong>{{reviews.customer.fullName}}</strong></p>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselContent" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselContent" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <!--Grid row-->
+
+
+
+      </section>
+    </div>
+    <!--Section: Contact v.1-->
+    <section class="col-lg-12 pen-bg">
+
+      <!-- <img src="https://i.ytimg.com/vi/dNqsMkX8qMg/maxresdefault.jpg" class="img-fluid" alt="Responsive image"> -->
+      <!--Section heading-->
+      <h2 class="section-heading h3 pt-5 text-center">Contact us</h2>
+
+      <div class="row pt-3 pb-5">
+        <!--Grid column-->
+        <div class="col-lg-7 mb-4 ">
+
+          <div class="card card-content">
+
+            <div class="card-body">
+
+              <!--Google map-->
+              <div id="map-container-google-11" class="z-depth-1-half map-container-6 card card-content inner"
+                style="height: 400px">
+                <iframe
+                  :src="'https://www.google.com/maps/embed/v1/search?key=AIzaSyBK73HewkhHBVVs9nI98-HY_N7cZM_kdjE&q=' + shop.address"
+                  width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3688.038279883241!2d114.20929231495701!3d22.427584985257617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340408971ca3df4d%3A0x693aec15dbc6ea00!2sThe+Contact+Store!5e0!3m2!1szh-TW!2shk!4v1546959346715"
+            width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+              </div>
+
+              <br>
+              <!--Buttons-->
+              <div class="row text-center">
+                <div class="col-md-3">
+                  <a class="btn-floating blue accent-1"><i class="fas fa-map-marker-alt primary"></i></a>
+                  <p>{{shop.address}}</p>
+                </div>
+
+                <div class="col-md-6">
+                  <a class="btn-floating blue accent-1"><i class="fas fa-phone primary"></i></a>
+                  <p>+852 - {{shop.phone}}</p>
+                  <p>Session 1: Open: {{shop.openS1}} Close: {{shop.closeS1}}</p>
+                  <p v-if="shop.openS2 !== '' && shop.closeS2 !== ''">Sessoin 2: Open: {{shop.openS2}} Close:
+                    {{shop.closeS2}}</p>
+                  <p>Closed: {{shop.closed}}</p>
+                </div>
+
+                <div class="col-md-3">
+                  <a class="btn-floating blue accent-1"><i class="fas fa-link primary"></i></a>
+                  <p><a :href="shop.facebook" target="_blank">{{shop.shopName}}</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!--Grid column-->
+
+        <!-- booking form  -->
+        <!--Grid column-->
+        <div class="col-lg-5 mb-4">
+
+          <!--Form with header-->
+          <div class="card card-content">
+
+            <div class="card-body">
+              <!--Header-->
+              <div class="form-header blue accent-1">
+                <h3><i class="fas fa-bookmark"></i> Make an appointment now! </h3>
+              </div>
+
+
+              <!--form-->
+              <!-- Guest -->
+              <% if(!me) { %>
+              <div class="md-form">
+                <i class="fas fa-user prefix grey-text"></i>
+                <label for="form-name">Date</label>
+                <input disabled type="date" min="" id="form-name" class="form-control">
+
+
+                <div class="md-form">
+                  <i class="fas fa-clock"></i>
+                  <label for="form-name">Time</label>
+                  <input disabled type="time" min="12:00" max="17:00" id="form-name" class="form-control">
+                </div>
+
+                <!-- <div class="md-form">
+                  <i class="far fa-dot-circle"></i>
+                  <label for="form-name">Purpose</label>
+                  <select disabled class="form-control">
+                    <option value="volvo">Bike repair</option>
+                    <option value="saab">Bike Upgrade</option>
+                    <option value="mercedes">Bike Fitting</option>
+                    <option value="audi">Order a Bike</option>
+                  </select>
+                </div> -->
+
+                <div class="md-form">
+                  <i class="fas fa-pencil-alt prefix grey-text"></i>
+                  <label for="form-text">Remarks</label>
+
+                  <textarea disabled type="text" id="form-text" class="form-control md-textarea"
+                    rows="3">Please login first. </textarea>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button disabled class="btn btn-primary btn-md waves-effect waves-light">Submit</button>
+                </div>
+              </div>
+              <% } %>
+
+              <!-- email unconfirm -->
+              <% if(me&&me.emailStatus === 'unconfirmed' | me.emailStatus === 'changeRequested') { %>
+              <div class="md-form">
+                <i class="fas fa-user prefix grey-text"></i>
+                <label for="form-name">Date</label>
+                <input disabled type="date" min="" id="form-name" class="form-control">
+
+
+                <div class="md-form">
+                  <i class="fas fa-clock"></i>
+                  <label for="form-name">Time</label>
+                  <input disabled type="time" min="12:00" max="17:00" id="form-name" class="form-control">
+                </div>
+
+                <!-- <div class="md-form">
+                  <i class="far fa-dot-circle"></i>
+                  <label for="form-name">Purpose</label>
+                  <select disabled class="form-control">
+                    <option value="volvo">Bike repair</option>
+                    <option value="saab">Bike Upgrade</option>
+                    <option value="mercedes">Bike Fitting</option>
+                    <option value="audi">Order a Bike</option>
+                  </select>
+                </div> -->
+
+                <div class="md-form">
+                  <i class="fas fa-pencil-alt prefix grey-text"></i>
+                  <label for="form-text">Remarks</label>
+
+                  <textarea disabled type="text" id="form-text" class="form-control md-textarea"
+                    rows="3">Please confirm email. </textarea>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button disabled class="btn btn-primary btn-md waves-effect waves-light">Submit</button>
+                </div>
+              </div>
+              <% } %>
+
+              <!-- email confirm and logged in -->
+              <% if(me && me.emailStatus !== 'unconfirmed' && me.emailStatus !== 'changeRequested' && me.shopOwner !== 'Yes' ) { %>
+              <ajax-form action="newBooking" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+                @submitted="submittedForm($event)" :handle-parsing="handleParsingForm">
+
+                <div class="md-form">
+                  <i class="fas fa-calendar"></i>
+                  <label for="form-name">Date <span style="color:red">*</span></label>
+                  <input type="date" id="today" max="2019-12-31" id="form-name" class="form-control"
+                    v-model="formData.date" :class="[formErrors.date ? 'is-invalid' : '']">
+                  <input hidden type="number" :v-model="formData.shopId = shop.id">
+                  <input hidden type="number" :v-model="formData.shopOwner = shop.owner.id">
+                  <input hidden type="text" :v-model="formData.shopEmail = shop.owner.emailAddress">
+                  <input hidden type="text" :v-model="formData.shopName = shop.shopName">
+                  <div class="invalid-feedback" v-if="formErrors.date">Please enter the date of booking.</div>
+                </div>
+
+                <!-- modify time session -> session 1/ sessoin 2, display the time input option depend on selected section -->
+                <!-- <div class="md-form">
+                  <i class="fas fa-clock"></i>
+                  <label for="form-name">Time <span style="color:red">*</span></label>
+                  <input type="time" :min="shop.openS1" :max="shop.closeS1" id="form-name" class="form-control" v-model="formData.time"
+                    :class="[formErrors.time ? 'is-invalid' : '']">
+                  <div class="invalid-feedback" v-if="formErrors.time">Please enter the time of booking.</div>
+
+                </div> -->
+                <!-- <hr class="hidden"> -->
+                <!-- <div class="md-form py-2">
+                  <i class="fas fa-check-square"></i>
+                  <label for="form-name">Please select booking section: <span style="color:red">*</span></label>
+                </div> -->
+                <!-- radio buttom to select Session 1 or Session 2 -->
+                <div class="md-form py-2">
+                  <i class="fas fa-check-square"></i>
+                  <label for="form-name">Please select booking section: <span style="color:red">*</span></label>
+                  <br>
+
+                  <label class="radio-inline" v-if="shop.openS1 !== '' && shop.closeS1 !== ''">
+                    <input type="radio" v-model="selected" value="1" />
+                    Session 1</label>
+
+                  <label class="radio-inline" v-if="shop.openS2 !== '' && shop.closeS2 !== ''">
+                    <input type="radio" v-model="selected" value="2" />
+                    Session 2</label>
+                </div>
+
+                <div class="md-form" v-if="selected == 1">
+                  <i class="fas fa-clock"></i>
+                  <label for="form-name">Time <span style="color:red">*</span></label>
+                  <input type="time" :min="shop.openS1" :max="shop.closeS1" id="form-name" class="form-control"
+                    v-model="formData.time" :class="[formErrors.time ? 'is-invalid' : '']">
+                  <div class="invalid-feedback" v-if="formErrors.time">Please enter the time of booking.</div>
+
+                </div>
+                <div class="md-form" v-if="selected == 2">
+                  <i class="fas fa-clock"></i>
+                  <label for="form-name">Time <span style="color:red">*</span></label>
+                  <input type="time" :min="shop.openS2" :max="shop.closeS2" id="form-name" class="form-control"
+                    v-model="formData.time" :class="[formErrors.time ? 'is-invalid' : '']">
+                  <div class="invalid-feedback" v-if="formErrors.time">Please enter the time of booking.</div>
+
+                </div>
+
+                <!-- <div class="md-form">
+                  <i class="far fa-dot-circle"></i>
+                  <label for="form-name">Services <span style="color:red">*</span></label>
+                  <select class="form-control" v-model="formData.service" :class="[formErrors.service ? 'is-invalid' : '']">
+                    <option>Bike repair</option>
+                    <option>Bike Upgrade</option>
+                    <option>Bike Fitting</option>
+                    <option>Order a Bike</option>
+                  </select>
+                  <div class="invalid-feedback" v-if="formErrors.service">Please select the service.</div>
+                </div> -->
+
+                <div class="md-form">
+                  <i class="fas fa-pencil-alt prefix grey-text"></i>
+                  <label for="form-text">Remarks</label>
+
+                  <textarea type="text" id="form-text" class="form-control md-textarea" rows="3"
+                    v-model="formData.remarks"></textarea>
+                </div>
+
+                <div class=" text-center mt-4">
+                  <ajax-button class="btn btn-primary btn-md waves-effect waves-light">Submit</ajax-button>
+                </div>
+              </ajax-form>
+              <% } %>
+
+            </div>
+
+          </div>
+          <!--Form with header-->
+
+        </div>
+        <!--Grid column-->
+
+
+
+      </div>
+
+    </section>
+    <!--Section: Contact v.1-->
+  </main>
+
+  <!-- admin checking -->
+  <% if(me&&me.isSuperAdmin == true) { %>
+  <main class="mt-5" :key="'checkShop'+checkShop.id" v-for="checkShop in checkShops">
+
+    <div class="container">
+
+      <section id="gallery">
+
+        <!-- Heading -->
+        <h2 class="mb-5 font-weight-bold text-center">{{checkShop.shopName}}</h2>
+
+        <!-- Loop -->
+        <!--Grid row-->
+        <div class="row">
+
+          <!--Grid column-->
+          <div class="col-md-6 mb-4">
+
+            <!--Carousel Wrapper-->
+            <div id="carousel-example-1z" class="carousel slide carousel-fade carousel-fade" data-ride="carousel">
+              <!--Indicators-->
+              <!-- <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-example-1z" data-slide-to="1" class=""></li>
+                  <li data-target="#carousel-example-1z" data-slide-to="2" class=""></li>
+                </ol> -->
+              <!--/.Indicators-->
+              <!--Slides-->
+              <div class="carousel-inner z-depth-1-half card card-content" role="listbox">
+                <!--First slide-->
+                <div class="carousel-item active">
+                  <img class="d-block w-100" :src="checkShop.imageSrc" alt="checkShop.shopName">
+                </div>
+                <!--/First slide-->
+                <!--Second slide-->
+                <!-- <div class="carousel-item">
+                    <img class="d-block w-100" src="https://www.bikeleague.org/sites/default/files/grid-images/find_class_grid.jpg"
+                      alt="Second slide">
+                  </div> -->
+                <!--/Second slide-->
+                <!--Third slide-->
+                <!-- <div class="carousel-item">
+                    <img class="d-block w-100" src="https://www.bikeleague.org/sites/default/files/grid-images/smart-cycling-tips-grid.jpg"
+                      alt="Third slide">
+                  </div> -->
+                <!--/Third slide-->
+              </div>
+              <!--/.Slides-->
+              <!--Controls-->
+              <!-- <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a> -->
+              <!--/.Controls-->
+            </div>
+            <!--/.Carousel Wrapper-->
+
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-md-6 card ">
+
+            <!--Excerpt-->
+            <!-- <a href="" class="teal-text">
+                    <h6 class="pb-1"><i class="fas fa-bicycle"></i><strong>OUR CONTACT STORY</strong></h6>
+                  </a> -->
+            <h5 class="mb-3"><strong>{{checkShop.shopName}}</strong></h5>
+            <p class="font_8">{{checkShop.shopDetail}}</h5>
+              <!-- ratings -->
+              <!-- <p>Ratings</p>
+              <span class="fa fa-star checked" style="color:gold"></span>
+              <span class="fa fa-star checked" style="color:gold"></span>
+              <span class="fa fa-star checked" style="color:gold"></span>
+              <span class="fa fa-star checked" style="color:gold"></span>
+              <span class="fa fa-star checked" style="color:gold"></span> -->
+              <!-- <span>5</span> -->
+              <br><br>
+              <!-- <div class="btn btn-primary btn-md waves-effect waves-light" style="color: black" href="#middle">Make
+                appointment now!</div> -->
+          </div>
+          <!--Grid column-->
+
+        </div>
+
+        <!--Grid row-->
+
+
+
+      </section>
+    </div>
+    <!--Section: Contact v.1-->
+    <section class="col-lg-12 card ">
+
+      <!-- <img src="https://i.ytimg.com/vi/dNqsMkX8qMg/maxresdefault.jpg" class="img-fluid" alt="Responsive image"> -->
+      <!--Section heading-->
+      <h2 class="section-heading h3 pt-4 text-center">Contact us</h2>
+
+
+      <div class="row">
+        <!--Grid column-->
+        <div class="col-lg-7">
+
+          <!--Google map-->
+          <div id="map-container-google-11" class="z-depth-1-half map-container-6" style="height: 400px">
+            <iframe
+              :src="'https://www.google.com/maps/embed/v1/search?key=AIzaSyBK73HewkhHBVVs9nI98-HY_N7cZM_kdjE&q=' + checkShop.address"
+              width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3688.038279883241!2d114.20929231495701!3d22.427584985257617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x340408971ca3df4d%3A0x693aec15dbc6ea00!2sThe+Contact+Store!5e0!3m2!1szh-TW!2shk!4v1546959346715"
+              width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+          </div>
+
+          <br>
+          <!--Buttons-->
+          <div class="row text-center">
+            <div class="col-md-4">
+              <a class="btn-floating blue accent-1"><i class="fas fa-map-marker-alt primary"></i></a>
+              <p>{{checkShop.address}}</p>
+            </div>
+
+            <div class="col-md-4">
+              <a class="btn-floating blue accent-1"><i class="fas fa-phone primary"></i></a>
+              <p>+852 - {{checkShop.phone}}</p>
+              <!-- <p>Open: {{checkShop.open}} Close: {{checkShop.close}}</p> -->
+              <p>Session 1: Open: {{checkShop.openS1}} Close: {{checkShop.closeS1}}</p>
+              <p v-if="checkShop.openS2 !== '' && checkShop.closeS2 !== ''">Sessoin 2: Open: {{checkShop.openS2}}
+                Close:
+                {{checkShop.closeS2}}</p>
+
+              <p>Closed: {{checkShop.closed}}</p>
+            </div>
+
+            <div class="col-md-4">
+              <a class="btn-floating blue accent-1"><i class="fas fa-link primary"></i></a>
+              <p><a :href="checkShop.facebook" target="_blank">{{checkShop.shopName}}</a></p>
+            </div>
+          </div>
+
+        </div>
+        <!--Grid column-->
+
+        <!-- booking form  -->
+        <!--Grid column-->
+        <div class="col-lg-5 mb-4">
+
+          <!--Form with header-->
+          <div class="card card-content">
+
+            <div class="card-body">
+              <!--Header-->
+              <div class="form-header blue accent-1">
+                <h3><i class="fas fa-bookmark"></i> Approve/ Reject </h3>
+              </div>
+
+
+              <!--form-->
+              <% if(me && me.emailStatus !== 'unconfirmed' && me.emailStatus !== 'changeRequested') { %>
+
+              <ajax-form action="approveShop" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+                @submitted="submittedApproveShopForm()" :handle-parsing="handleParsingApproveForm">
+
+                <input hidden type="number" v-model="formData.id = checkShop.id">
+
+                <div class=" text-center mt-4">
+                  <button class="btn btn-primary btn-md waves-effect waves-light">Approve</button>
+                </div>
+              </ajax-form>
+
+
+              <ajax-form action="rejectShop" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+                @submitted="submittedRejectShopForm()" :handle-parsing="handleParsingRejectForm">
+
+                <input hidden type="number" v-model="formData.id = checkShop.id">
+
+                <div class=" text-center mt-4">
+                  <button class="btn btn-danger btn-md waves-effect waves-light">Reject</button>
+                </div>
+              </ajax-form>
+
+              <% } %>
+
+            </div>
+
+          </div>
+          <!--Form with header-->
+
+        </div>
+        <!--Grid column-->
+
+
+
+      </div>
+
+    </section>
+    <!--Section: Contact v.1-->
+  </main>
+  <% } %>
+
+  <!-- Rejected shop (404) -->
+  <div class="pt-5 pb-5" v-for="rejectedShop in rejectedShops"
+    v-if="rejectedShop.status === 'Rejected' || rejectedShop.status === 'Requested'">
+    <div class="container text-center pt-5  pb-5">
+      <h1 class="display-1 mb-3  pb-5">404</h1>
+      <hr />
+      <h2>The page you seek doesn't exist.</h2>
+      <div class="help">
+        <p>Think you're seeing this message in error?<br /><span class="mobile-spacer">&nbsp;</span>Please <a
+            href="/contact">let
+            us know.</a></p>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<script>
+  let today = new Date().toISOString().substr(0, 10);
+  // document.querySelector("#today").value = today;
+  // var tomorrow = new Date().toISOString().substr(0, 10);
+  // tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // var tomorrow = new Date(today.getTime()+1000*60*60*24);
+  var currentdate = new Date();
+  currentdate.setDate(currentdate.getDate() + 1);
+  var tomorrow = currentdate.toJSON().slice(0, 10);
+  document.querySelector("#today").min = tomorrow;
+
+</script>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

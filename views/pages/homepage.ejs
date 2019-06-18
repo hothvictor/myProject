@@ -1,0 +1,395 @@
+<div class="pt-6" id="homepage" :class="[heroHeightSet ? '' : 'uninitialized'] " v-cloak>
+
+  <!-- news slider -->
+  <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active" v-for="hot in hots">
+        <a :href="'news/'+ hot.id"><img class="d-blockCenter w-80" :src="hot.imageSrc" alt="First slide"></a>
+        <div class="carousel-caption d-none d-md-block">
+          <h3>{{hot.newsName}}</h3>
+          </p>
+        </div>
+      </div>
+      <div class="carousel-item" v-for="news in newss">
+        <a :href="'news/'+ news.id"><img class="d-blockCenter w-80" :src="news.imageSrc" alt="Second slide"></a>
+        <div class="carousel-caption d-none d-md-block">
+          <h3>{{news.newsName}}</h3>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div> -->
+
+
+
+  <!-- top -->
+  <div class="hero d-flex flex-column justify-content-center top-bg pb-5 " full-page-hero>
+    <div class="container text-center">
+      <div class="hero-image">
+        <!-- <img class="sky" alt="The sky above the ocean" src="/images/hero-sky.png" /> -->
+        <!-- <img class="cloud cloud-1" alt="A grayish-blue cloud" src="/images/cycling2.png" />
+        <img class="cloud cloud-2" alt="Another grayish-blue cloud" src="/images/cycling2.png" /> -->
+        <!-- <img class="cloud cloud-2" alt="heartbeat" src="/images/heartbeat.gif" /> -->
+        <!-- <img class="water" alt="The shadow of the floating ship on the water" src="/images/hero-water.png" /> -->
+      </div>
+      <h1 class="display-4 strong">Welcome To <strong style="color: rgb(0, 183, 255)">e-Clinic HK</strong></h1>
+      <div>
+        <div class="more-info-text" @click="clickHeroButton()">
+          <div class="text">Know more about e-Clinic booking</div>
+          <div class="icon">&darr;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Intro. -->
+  <div class="about-wrapper pen-bg pb-5 " role="scroll-destination">
+    <div class="container">
+      <div class="about text-center">
+        <h3>e-Clinic allows patient make an appointment with clinic online.</h3>
+      </div>
+
+      <div class="features text-center">
+        <div class="row" style="color:#009dff">
+          <div class="feature col-sm">
+            <div class="icon" style="background-color:#0077c1">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h4>Convenient</h4>
+            <p class="text-dark">
+              Online pre-booking is allowed.
+              No need to line up in clinic.
+            </p>
+          </div>
+
+          <div class="col-sm feature">
+            <div class="icon" style="background-color:#0077c1">
+              <i class="fas fa-book"></i>
+            </div>
+            <h4>Efficiency</h4>
+            <p class="text-dark">Reduce paper work and human errors.</p>
+          </div>
+
+          <div class="col-sm feature">
+            <div class="icon" style="background-color:#0077c1">
+              <i class="fas fa-laptop"></i>
+            </div>
+            <h4>Online record</h4>
+            <p class="text-dark">Online booking record can be consult any time any where.</p>
+          </div>
+        </div>
+        <% if(!me) { %>
+        <a href="/signup" class="btn btn-primary btn-md waves-effect waves-light" style="color: black">Sign up</a>
+        <%}%>
+        <!-- <a class="btn btn-primary btn-md waves-effect waves-light" style="color: black" @click="clickHeroButton2()">Learn
+          more</a> -->
+        <div class="hero">
+          <div class="more-info-text" @click="clickHeroButton2()">
+            <div class="text black">News</div>
+            <div class="icon black">&darr;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News -->
+  <main class="news-bg pb-3 pt-3" role="scroll-destination2">
+
+    <!--Main container-->
+    <div class="container">
+      <div class="about text-center pt-5">
+        <h3>News</h3><br>
+      </div>
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-5" v-for="latest in results.slice(0,3)">
+
+          <!--Card-->
+          <div class="card card-content pb-5">
+
+            <!--Card image-->
+            <div class="view overlay">
+              <a :href="latest.url" target="_blank"><img :src="latest.urlToImage" class="card-img-top" alt=""></a>
+
+              <a :href="latest.url" target="_blank">
+                <div class="mask rgba-white-slight waves-effect waves-light"></div>
+              </a>
+            </div>
+
+            <!--Card content-->
+            <div class="card-body">
+              <!--Title-->
+              <a :href="latest.url" target="_blank">
+                <h4 style="color:#009dff" class="card-title">{{latest.title}}</h4>
+              </a>
+              <!--Text-->
+              <a :href="latest.url" target="_blank" class="btn btn-outline-primary">Read more</a>
+            </div>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+      </div>
+      <!--Grid row-->
+      <div class="features text-center">
+        <div class="hero">
+          <div class="more-info-text" @click="clickHeroButton4()">
+            <div class="text black">Events</div>
+            <div class="icon black">&darr;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main container -->
+
+  </main>
+
+
+  <!-- be safe -->
+  <!-- <div class="about-wrapper" role="scroll-destination3" style="color: white">
+    <div class="container">
+      <div class="about text-center">
+        <h3>Be Safe!</h3>
+      </div>
+      <div class="features text-center">
+        <div class="row">
+          <div class="feature col-sm">
+            <a href="/safety">
+              <img src="/images/helmet2.png" alt="..." class="rounded mx-auto d-block safeimg">
+              <h4>Safety Gear</h4>
+            </a>
+            <p class="text-muted">Check the condition of the cycle and wear safety helmets and pads before setting off</p>
+          </div>
+
+          <div class="col-sm feature">
+            <a href="/safety">
+              <img src="/images/traffic-light.png" alt="..." class="rounded mx-auto d-block safeimg">
+              <h4>Obey traffic light signals</h4>
+            </a>
+            <p class="text-muted">Obey traffic light signals, traffic signs and road markings.</p>
+          </div>
+
+          <div class="col-sm feature">
+            <a href="/safety">
+              <img src="/images/man-riding-bike.png" alt="..." class="rounded mx-auto d-block safeimg">
+              <h4>Ride in single file</h4>
+            </a>
+            <p class="text-muted">Cyclist must ride in single file except when overtaking.
+              Ride along the left side of the road and keep clear of the kerb.
+              Do not drift from side to side or zig-zag through traffic.</p>
+          </div>
+        </div>
+        <a class="btn btn-primary btn-md waves-effect waves-light" style="color: black" href="/safety">Learn more</a>
+        <a class="btn btn-primary btn-md waves-effect waves-light" @click="clickHeroButton4()" style="color: black">
+          Know more</a>
+
+      </div>
+    </div>
+  </div> -->
+
+  <!-- events -->
+  <main class="pink-bg pt-6 pb-5" role="scroll-destination4">
+    <div class="container">
+
+      <section id="gallery" class="">
+        <!-- Heading -->
+        <h2 class="mb-5 font-weight-bold text-center">Events</h2>
+        <!--Grid row-->
+        <div class="row" :key="'event'+event.id" v-for="event in events">
+          <!--Grid column-->
+          <div class="col-md-6 mb-4">
+            <!--Carousel Wrapper-->
+            <div id="carousel-example-1z" class="carousel slide carousel-fade carousel-fade" data-ride="carousel">
+              <div class="carousel-inner z-depth-1-half" role="listbox">
+                <!--First slide-->
+                <div class="carousel-item active">
+                  <img class="d-block w-100 card card-content inner" :src="event.imageSrc" alt="First slide">
+                </div>
+              </div>
+            </div>
+            <!--/.Carousel Wrapper-->
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-md-6 mb-4 card card-tran inner">
+            <!--Excerpt-->
+            <!-- title -->
+            <h4 class="pb-1" style="color:#009dff"><i class="far fa-calendar"></i><strong> {{event.eventName}}
+              </strong></h6>
+              </a>
+
+
+              <p>Date: {{event.date}}</p>
+              <!-- content -->
+              <p>{{event.eventDetail}}</p>
+              <!-- event page -->
+              <a :href="event.eventSrc" class="btn btn-primary btn-md waves-effect waves-light" target="_blank">Apply
+                event</a>
+          </div>
+          <!--Grid column-->
+        </div>
+        <div class="features text-center">
+          <div class="hero">
+            <div class="more-info-text" @click="clickHeroButton5()">
+              <div class="text black">Clinics</div>
+              <div class="icon black">&darr;</div>
+            </div>
+          </div>
+        </div>
+        <!--Grid row-->
+      </section>
+    </div>
+
+  </main>
+
+
+  <!--  shop -->
+  <main class="homeShop-bg pb-5 pt-3" role="scroll-destination5">
+    <div class="container">
+      <section id="examples" class="text-center">
+
+        <!-- Heading -->
+        <h2 class="mb-5 pt-5 font-weight-bold">Clinics</h2>
+
+        <!--Grid row-->
+        <div class="row">
+
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-12 mb-4" :key="'shop'+shop.id" v-for="shop in shops">
+            <div class="card card-content">
+              <div class="view overlay z-depth-1-half inner">
+                <a :href="'shop/' + shop.id"><img :src="shop.imageSrc" class="img-fluid" alt=""></a>
+                <div class="mask rgba-white-slight">
+                </div>
+              </div>
+              <div>
+                <a :href="'shop/' + shop.id">
+                  <h4 style="color:#009dff" class="my-4 font-weight-bold">{{shop.shopName}}</h4>
+                </a>
+              </div>
+              <!-- ratings -->
+              <div class="rating inner">
+                <!-- <span>Ratings: </span> -->
+                <span class="fa fa-star checked" style="color:gold"></span>
+                <span class="fa fa-star checked" style="color:gold"></span>
+                <span class="fa fa-star checked" style="color:gold"></span>
+                <span class="fa fa-star checked" style="color:gold"></span>
+                <span class="fa fa-star checked" style="color:gold"></span>
+              </div>
+              <p class="grey-text"><i class="fas fa-map-marker-alt"></i>{{shop.address}}.</p>
+              <!-- <p class="text-muted">{{shop.shopDetail}}</p> -->
+              <!-- delete button -->
+              <!-- <% if(me && me.isSuperAdmin == true){ %>
+        <button class="options-button shopbutton" title="Delete" @click="clickDeleteShop(shop.id)">
+          <i class="far fa-trash-alt text-danger"></i>
+        </button>
+        <% } %> -->
+
+      </div>
+      <!--Grid column-->
+    </div>
+  </div>
+  <% if(!me) { %>
+  <!--Grid row-->
+  <p class="font-weight-bold">Can not found your clinic? Register your clinic now. It's free.</p>
+  <a class="btn btn-primary btn-md waves-effect waves-light" style="color: black" href="/shopsignup">Register</a>
+  <% } %>
+
+  </section>
+</div>
+
+</main>
+<!-- <div class="container">
+    <div class="setup">
+      <h3 class="text-center">How to get started:</h3>
+      <div class="step">
+        <div class="step-image">
+          <img alt="computer with email symbol on screen" src="/images/setup-email.png" />
+        </div>
+        <h5>Set up your branding and content</h5>
+        <p>This starter app includes several different page templates (including the one you're reading right now) that
+          you can change as much or as little as you like. If there are any pages you won't need, just remove them.</p>
+        <p>To get started, do a global find/replace in this project for occurrences of <code>NEW_APP_NAME</code> and
+          replace them all with the actual name of your app or platform ("Sharepoint"). Then do the same thing again to
+          replace <code>NEW_APP_COMPANY</code> with the actual name of your organization ("Microsoft Corporation").</p>
+        <p><small>This app also includes a default <a href="/legal/terms">Terms of Use</a> and <a href="/legal/privacy">Privacy
+              Policy</a>. We want to make it easier for apps to be transparent about their users' rights and privacy.
+            But we are developers, not lawyers; and this is <em>definitely not legal advice</em>. Before going live, be
+            sure to replace these example documents with your own company's policies, and <a href="https://en.wikipedia.org/wiki/Counsel"
+              target="_blank">seek counsel</a> for assistance if you need to design new terms from scratch.</small></p>
+      </div>
+      <div class="step">
+        <div class="step-image">
+          <img alt="computer with credit card icon on screen" src="/images/setup-payment.png" />
+        </div>
+        <h5>Configure integrations</h5>
+        <p>In order for this app to send automated emails, you'll need to create a <a target="_blank" href="https://mailgun.com">Mailgun</a>
+          account. Then, in <code>config/custom.js</code>, configure the following:</p>
+        <div class="card bg-light mb-4">
+          <div class="card-body">
+            <pre><code><span class="text-muted">// Recipient of contact form messages</span>
+internalEmailAddress: my.email@example.com,
+
+<span class="text-muted">// For outgoing emails</span>
+fromEmailAddress: 'noreply@example.com',
+fromName: 'The Sails.js Team',
+
+<span class="text-muted">// Mailgun settings</span>
+mailgunDomain: 'transactional-mail.example.com',
+mailgunSecret: 'key-testkeyb183848139913858e8abd9a3'</code></pre>
+          </div>
+        </div>
+        <p>To enable support for billing features, you'll need to make a <a target="_blank" href="https://stripe.com">Stripe</a>
+          account, then include your test credentials like so:</p>
+        <div class="card bg-light mb-4">
+          <div class="card-body">
+            <pre><code><span class="text-muted">// Stripe credentials</span>
+stripePublishableKey: 'pk_test_Zzd814nldl91104qor5911gjald',
+stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald'</code></pre>
+          </div>
+        </div>
+        <p><small>If your app doesn't need payment processing, it will still work without Stripe configuration. In this
+            case, all references to billing will just be omitted from the UI.</small></p>
+      </div>
+      <div class="step">
+        <div class="step-image">
+          <img alt="computer with sails logo on screen" src="/images/setup-customize.png" />
+        </div>
+        <h5>Customize</h5>
+        <p>Once the initial configuration is done, you're ready to start building out the rest of your app.</p>
+        <p>We worked hard to make this starter app's structure consistent and its files are as bare-bones as possible,
+          so it's easy to add new pages and business logic following the conventions we set up. If you run into
+          trouble, have a look at <a href="/faq">your new FAQ page</a>, which covers the tools we used and how to
+          customize. For a deeper dive, check out the Sails <a href="https://sailsjs.com/documentation">documentation</a>
+          and <a href="https://sailsjs.com/support">support</a> pages.</p>
+      </div>
+    </div>
+    <hr />
+    <div class="pep-talk text-center">
+      <h3>Let's get to work.</h3>
+      <p>We think this project is a pretty convenient starting point, but of course there's no one-size-fits-all
+        solution. The good news is, this app is in your hands now, so you can jump into the files and adapt it to your
+        needs. Change some code around. Break stuff. Fix it. And above all: <strong>make something people want to use</strong>.</p>
+      <p><span class="text-muted">&hearts;</span> <a href="https://sailsjs.com/about">The Sails Team</a></p>
+    </div>
+  </div> -->
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

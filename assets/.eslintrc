@@ -1,0 +1,40 @@
+{
+  
+  "extends": [
+    "../.eslintrc"
+  ],
+
+  "env": {
+    "browser": true,
+    "node": false
+  },
+
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+
+  "globals": {
+
+   
+    "SAILS_LOCALS": true,
+    "io": true,
+    "Cloud": true,
+    "parasails": true,
+    "$": true,
+    "_": true,
+    "bowser": true,
+    "StripeCheckout": true,
+    "Stripe": true,
+    "Vue": true,
+    "VueRouter": true,
+    "Promise": true,
+   
+
+    "sails": false,
+    "async": false,
+    "User": false,
+    "Thing": false
+    
+  }
+
+}

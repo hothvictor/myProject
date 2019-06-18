@@ -1,0 +1,44 @@
+<div id="bike-news" v-cloak>
+
+  <h1>TODO: Implement this page.</h1>
+  <p>(See also <em>assets/styles/pages/bikenews/bike-news.less</em>, <em>assets/js/pages/bikenews/bike-news.page.js</em>,
+    and <em>api/controllers/bikenews/view-bike-news.js</em>.)</p>
+    <p id="demo"></p>
+</div>
+<script>
+  var url = 'https://newsapi.org/v2/everything?' +
+    'q=cycling&' +
+    'apiKey=083be1c3a4914b3fbc8134118e730ddf';
+  var req = new Request(url);
+  fetch(req)
+    .then(function (response) {
+      console.log(response.json());
+    })
+
+  var jsonString = fetch(req);
+  var jsonPretty = JSON.stringify(JSON.parse(jsonString), null, 2);
+
+  var obj, dbParam, xmlhttp, myObj, x, txt = "";
+  obj = {
+    table: "author",
+    limit: 20
+  };
+  dbParam = JSON.stringify(obj);
+  xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      myObj = JSON.parse(this.responseText);
+      txt += "<table border='1'>"
+      for (x in myObj) {
+        txt += "<tr><td>" + myObj[x].name + "</td></tr>";
+      }
+      txt += "</table>"
+      document.getElementById("author").innerHTML = txt;
+    }
+  };
+  xmlhttp.open("POST", url, true);
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send("x=" + dbParam);
+
+</script>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

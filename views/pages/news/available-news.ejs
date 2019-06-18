@@ -1,0 +1,184 @@
+<div id="available-news" class="pen-bg pb-5 pt-3 pt-5" v-cloak>
+  <main class="pt-5 pb-5">
+
+    <!--Main container-->
+    <div class="container pb-5">
+      <div class="form-group right col-4 ">
+        <% if(me && me.isSuperAdmin == true) { %>
+        <button class="btn btn-primary mb-1" style="width: 200px; float: right;" title="Add" @click="clickAddButton()">Create</button>
+        <% } %>
+        <input class="form-control" type="text" v-model="search" placeholder="Search">
+      </div>
+      <section id="gallery">
+        <!-- Heading -->
+        <h2 class="mb-5 font-weight-bold text-center">Information</h2>
+
+        <!-- Loop -->
+        <!--Grid row-->
+        <div class="row" v-if="newss.length > 0">
+          <!--Grid column-->
+          <div class="col-lg-4 col-md-12 mb-4" :key="'news'+news.id" v-for="news in filterNews.slice().reverse()">
+            <!--Card-->
+            <div class="card card-content">
+              <div>
+                <% if(me  && me.isSuperAdmin == true) { %>
+                <!-- delete button -->
+                <button class="options-button thingbutton" title="Delete" @click="clickDeleteNews(news.id)" @v-if="news.owner === me.id">
+                  <i class="far fa-trash-alt text-danger" style="float:right"></i>
+                </button>
+                <!-- update button -->
+                <button class="options-button thingbutton" title="Update" @click="clickUpdateButton(news.id)" @v-if="news.owner === me.id">
+                  <i class="far fa-edit text-danger" style="float:right"></i>
+                </button>
+                <% } %>
+              </div>
+
+
+
+              <!--Card image-->
+              <div class="view overlay">
+                <a :href="'info/'+ news.id"><img :src="news.imageSrc" class="card-img-top" alt=""></a>
+              </div>
+
+              <!--Card content-->
+              <div class="card-body">
+                <!--Title-->
+                <a style="color:#009dff" :href="'info/'+ news.id">
+                  <h4 class="card-title" v-if="news.newsName" style="color:#009dff">{{news.newsName}}</h4>
+                </a>
+                <!-- <label for="date">Date: {{news.date}}</label> -->
+                <p style="white-space:pre-line; ">{{news.newsDetail}}</p>
+                <!-- <div v-if="news.owner.id === me.id"><i class="fas fa-star"></i>Mine</div>
+                <div v-else>Owner: {{news.owner.fullName}}</div> -->
+                <!--Text-->
+                <!-- <p class="text-muted">
+            Owner id: {{news.owner}}, My id: {{me.id}} </p>
+            My id: {{me.id}}</p> -->
+                <a :href="'info/'+ news.id" class="btn btn-primary btn-md waves-effect waves-light">Read more </a>
+              </div>
+            </div>
+            <!--/.Card-->
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </section>
+
+    </div>
+
+
+
+
+    <!-- pop up form (modal) -->
+    <% /* "confirm Delete News" Modal */ %>
+    <modal v-if="confirmDeleteNewsModalOpen && selectedNews" v-cloak key="delete" @close="closeDeleteNewsModal()">
+      <ajax-form action="destroyNews" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteNewsForm"
+        @submitted="submittedDeleteNewsForm()">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>&times;</span>
+          </button>
+          <h5 style="color:black">Are you sure to remove this news?</h5>
+
+        </div>
+        <hr>
+        <div class="modal-body">
+          <button type="submit" class="btn btn-danger ml-1 center">Remove</button>
+        </div>
+      </ajax-form>
+    </modal>
+
+
+
+    <!-- upload -->
+    <% /* "upload News" Modal */ %>
+    <modal v-if="uploadNewsModalOpen" v-cloak key="new" @close="closeUploadNewsModal()">
+      <ajax-form action="uploadNews" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUploadNewsForm"
+        @submitted="submittedUploadNewsForm($event)">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>&times;</span>
+          </button>
+          <h5 style="color:black">News</h5>
+
+        </div>
+        <hr>
+
+        <!-- validation not working, using 'required' instead of formErrors-->
+        <div class="modal-body">
+          <label style="color:black">Title:</label>
+          <input required class="form-control" type="text" v-model.trim="uploadFormData.newsName" :class="[formErrors.newsName ? 'is-invalid' : '']">
+          <div class="invalid-feedback" v-if="formErrors.newsName">Please enter the name of news.</div>
+          <label style="color:black">Content:</label>
+          <textarea id="mytextarea" required :class="[formErrors.newsDetail ? 'is-invalid' : '']" class="form-control"
+            name="content" v-model="uploadFormData.newsDetail"></textarea>
+          <div class="invalid-feedback" v-if="formErrors.newsDetail">Please enter details of news.</div>
+          <!-- <label style="color:black">Date:</label>
+          <input  required :class="[formErrors.date ? 'is-invalid' : '']" class="form-control" type="date"
+            v-model="uploadFormData.date">
+          <div class="invalid-feedback" v-if="formErrors.date">Please enter the date.</div> -->
+          <label style="color:black">Image Src:</label>
+          <input required :class="[formErrors.imageSrc ? 'is-invalid' : '']" class="form-control" type="text" v-model="uploadFormData.imageSrc">
+          <div class="invalid-feedback" v-if="formErrors.imageSrc">Please enter image address.</div>
+          <!-- <label style="color:black">News Src:</label>
+          <input required :class="[formErrors.newsSrc ? 'is-invalid' : '']" class="form-control" type="text" v-model="uploadFormData.newsSrc"> -->
+        </div>
+        <div class="invalid-feedback" v-if="formErrors.newsSrc">Please enter news address.</div>
+        <div class="modal-footer">
+          <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1 ">Upload</ajax-button>
+        </div>
+      </ajax-form>
+
+    </modal>
+
+    <!-- update -->
+    <% /* "Update News" Modal */ %>
+    <modal v-if="updateNewsModalOpen" v-cloak key="new" @close="closeUpdateNewsModal()">
+      <ajax-form action="updateNews" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingUpdateNewsForm"
+        @submitted="submittedUpdateNewsForm($event)">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span>&times;</span>
+          </button>
+          <h5 style="color:black">Update News</h5>
+
+        </div>
+        <hr>
+
+        <!-- validation not working in modal, using 'required' instead of formErrors-->
+        <div class="modal-body">
+          <input hidden type="text" name="" id="" v-model="updateFormData.id">
+          <label style="color:black">Title:</label>
+          <input required class="form-control" type="text" v-model.trim="updateFormData.newsName" :class="[formErrors.newsName ? 'is-invalid' : '']">
+          <div class="invalid-feedback" v-if="formErrors.newsName">Please enter the name of news.</div>
+          <label style="color:black">Content:</label>
+          <textarea required :class="[formErrors.newsDetail ? 'is-invalid' : '']" class="form-control" name="content"
+            id="editor1" v-model="updateFormData.newsDetail"></textarea>
+          <div class="invalid-feedback" v-if="formErrors.newsDetail">Please enter details of news.</div>
+          <!-- <label style="color:black">Date:</label>
+          <input required :class="[formErrors.date ? 'is-invalid' : '']" class="form-control" type="date" v-model="updateFormData.date">
+          <div class="invalid-feedback" v-if="formErrors.date">Please enter the date.</div> -->
+          <label style="color:black">Image Src:</label>
+          <input required :class="[formErrors.imageSrc ? 'is-invalid' : '']" class="form-control" type="text" v-model="updateFormData.imageSrc">
+          <div class="invalid-feedback" v-if="formErrors.imageSrc">Please enter image address.</div>
+          <!-- <label style="color:black">News Src:</label>
+          <input required :class="[formErrors.newsSrc ? 'is-invalid' : '']" class="form-control" type="text" v-model="updateFormData.newsSrc"> -->
+        </div>
+        <div class="invalid-feedback" v-if="formErrors.newsSrc">Please enter news address.</div>
+        <div class="modal-footer">
+          <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1 ">Update</ajax-button>
+
+        </div>
+      </ajax-form>
+    </modal>
+</div>
+<!-- <script src="https://cloud.tinymce.com/5/tinymce.min.js"></script>
+
+<script>
+    tinymce.init({
+      selector: '#mytextarea'
+    });
+    </script> -->
+
+
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

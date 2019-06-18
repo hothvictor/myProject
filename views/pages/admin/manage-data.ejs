@@ -1,0 +1,347 @@
+<div id="manage-data" v-cloak>
+  <div class="container">
+    <div class="row">
+      <hr class="hidden">
+      <div class="col-md-6 mb-4">
+        <div>
+          <h1>User</h1>
+        </div>
+        <hr class="hidden">
+        <div>
+          <input class="form-control col-md-4" id='myInput' onkeyup='searchTable()' type='text' placeholder="Search">
+        </div>
+        <table id="myTable">
+          <tr id='tableHeader'>
+            <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->
+            <!-- <th onclick="sortTable(0)">Id</th> -->
+            <th onclick="sortTable(0)">Name</th>
+            <th onclick="sortTable(1)">Email address</th>
+            <th onclick="sortTable(1)">Email status</th>
+            <th></th>
+          </tr>
+          <tr v-for="data in datas" :key="'data'+data.id">
+            <!-- <td>{{data.id}}</td> -->
+            <td>{{data.fullName}}</td>
+            <td>{{data.emailAddress}}</td>
+            <td>{{data.emailStatus}}</td>
+            <td> <button class="options-button managebutton" title="Delete" @click="clickDeleteButton(data.id)">
+                <i class="far fa-trash-alt text-danger" style="float:right"></i>
+            </td>
+            </button>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div>
+          <h1>Shop</h1>
+        </div>
+        <hr class="hidden">
+        <div>
+          <input class="form-control col-md-4" id='myShopInput' onkeyup='searchShopTable()' type='text' placeholder="Search">
+        </div>
+        <table id="myShopTable">
+          <tr id='shopTableHeader'>
+            <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->
+            <!-- <th onclick="sortShopTable(0)">Id</th> -->
+            <th onclick="sortShopTable(1)">Owner</th>
+            <th onclick="sortShopTable(0)">Shop name</th>
+            <th onclick="sortShopTable(1)">status</th>
+            <th>Approve</th>
+            <th>Reject</th>
+            <th>Delete</th>
+          </tr>
+          <tr v-for="shop in shops" :key="'shop'+shop.id">
+            <!-- <td>{{shop.id}}</td> -->
+            <td>{{shop.owner.fullName}}</td>
+            <td>
+              <a :href="'shop/' + shop.id">
+                {{shop.shopName}}
+              </a>
+            </td>
+            <td>
+              <span v-if="shop.status == 'Approved'" style="color:#0e9602"> {{shop.status}}</span>
+              <span v-if="shop.status == 'Requested'" style="color:#a0a0a0"> {{shop.status}}</span>
+              <span v-if="shop.status == 'Rejected'" style="color:#ff5656"> {{shop.status}}</span>
+            </td>
+
+            <td>
+              <!-- Accept -->
+              <ajax-button v-if="shop.status == 'Requested'" class="options-button managebutton" title="confirm" @click="clickApproveButton(shop.id)">
+                <i class="far fa-check-square text-success" style="float:right"></i>
+              </ajax-button>
+            </td>
+            <td>
+              <!-- Reject -->
+              <ajax-button v-if="shop.status == 'Requested'" class="options-button managebutton" title="confirm" @click="clickRejectButton(shop.id)">
+                <i class="far fa-times-circle text-danger" style="float:right"></i>
+              </ajax-button>
+            </td>
+            <td>
+              <!-- delete -->
+              <ajax-button class="options-button managebutton" title="confirm" @click="clickDeleteShop(shop.id)">
+                <i class="far fa-trash-alt text-danger" style="float:right"></i>
+              </ajax-button>
+            </td>
+
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <% /* "confirm Delete Data" Modal */ %>
+  <modal v-if="confirmDeleteDataModalOpen && selectedData" v-cloak key="delete" @close="closeDeleteDataModal()">
+    <ajax-form action="destroyUser" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteDataForm"
+      @submitted="submittedDeleteDataForm()">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+        <h5 style="color:black">Are you sure to delete this user?</h5>
+        <hr>
+        <p style="color: red">Caution: All data related to user will be destroy! </p>
+      </div>
+      <hr class="hidden">
+      <div class="modal-body">
+        <button type="submit" class="btn btn-danger ml-1 center">Remove</button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <% /* "Approve Shop request" Modal */ %>
+  <modal v-if="approveShopModalOpen && selectedShop" v-cloak key="update" @close="closeApproveShopModal()">
+    <ajax-form action="approveShop" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteBookingForm"
+      @submitted="submittedApproveShopForm($event)">
+      <div class="modal-header">
+        <button type="button" class="close" booking-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+        <h5 style="color:black">Are you sure to approve this shop record?</h5>
+
+      </div>
+      <hr class="hidden">
+      <div class="modal-body">
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1 center">Confirm</ajax-button>
+      </div>
+    </ajax-form>
+  </modal>
+
+  <% /* "Reject Shop request" Modal */ %>
+  <modal v-if="rejectShopModalOpen && selectedShop" v-cloak key="update" @close="closeRejectShopModal()">
+    <ajax-form action="rejectShop" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteBookingForm"
+      @submitted="submittedRejectShopForm($event)">
+      <div class="modal-header">
+        <button type="button" class="close" booking-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+        <h5 style="color:black">Are you sure to reject this shop record?</h5>
+
+      </div>
+      <hr class="hidden">
+      <div class="modal-body">
+        <ajax-button type="submit" :syncing="syncing" class="btn btn-danger ml-1 center">Confirm</ajax-button>
+      </div>
+    </ajax-form>
+  </modal>
+
+
+  <% /* "confirm Delete Shop" Modal */ %>
+  <modal v-if="confirmDeleteShopModalOpen && selectedShop" v-cloak key="delete" @close="closeDeleteShopModal()">
+    <ajax-form action="destroyShop" :syncing.sync="syncing" :cloud-error.sync="cloudError" :handle-parsing="handleParsingDeleteShopForm"
+      @submitted="submittedDeleteShopForm()">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+        <h5 style="color:black">Are you sure to remove this shop?</h5>
+
+      </div>
+      <hr class="hidden">
+      <div class="modal-body">
+        <button type="submit" class="btn btn-danger ml-1 center">Remove</button>
+      </div>
+    </ajax-form>
+  </modal>
+
+</div>
+
+
+
+<script>
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+  function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("myTable");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc";
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /*Loop through all table rows (except the
+      first, which contains table headers):*/
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+        one from current row and one from the next:*/
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /*check if the two rows should switch place,
+        based on the direction, asc or desc:*/
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        //Each time a switch is done, increase this count by 1:
+        switchcount++;
+      } else {
+        /*If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again.*/
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+
+  function sortShopTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("myShopTable");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc";
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /*Loop through all table rows (except the
+      first, which contains table headers):*/
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+        one from current row and one from the next:*/
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /*check if the two rows should switch place,
+        based on the direction, asc or desc:*/
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        //Each time a switch is done, increase this count by 1:
+        switchcount++;
+      } else {
+        /*If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again.*/
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  }
+
+  function searchTable() {
+    var input, filter, found, table, tr, td, i, j;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td");
+      for (j = 0; j < td.length; j++) {
+        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+        }
+      }
+      if (found) {
+        tr[i].style.display = "";
+        found = false;
+      } else {
+        if (tr[i].id != 'tableHeader') {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  function searchShopTable() {
+    var input, filter, found, table, tr, td, i, j;
+    input = document.getElementById("myShopInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myShopTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td");
+      for (j = 0; j < td.length; j++) {
+        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+        }
+      }
+      if (found) {
+        tr[i].style.display = "";
+        found = false;
+      } else {
+        if (tr[i].id != 'shopTableHeader') {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+</script>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid rgb(58, 58, 58);
+  }
+
+</style>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
