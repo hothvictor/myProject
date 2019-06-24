@@ -78,6 +78,7 @@ module.exports.bootstrap = async function (done) {
 
 
   var him = await User.create({
+    id: 1,
     emailAddress: 'him@example.com',
     fullName: 'him',
     phone: 95140904,
@@ -86,25 +87,64 @@ module.exports.bootstrap = async function (done) {
     shopOwner: 'Yes'
   }, ).fetch();
 
+  await User.create({
+    id: 2,
+    emailAddress: 'shop@example.com',
+    fullName: 'shop owner',
+    phone: 21800000,
+    isSuperAdmin: false,
+    password: await sails.helpers.passwords.hashPassword('abc123'),
+    shopOwner: 'Yes'
+  }, ).fetch();
+
+  await User.create({
+    id: 3,
+    emailAddress: 'user@example.com',
+    fullName: 'shop user',
+    phone: 91234567,
+    isSuperAdmin: false,
+    password: await sails.helpers.passwords.hashPassword('abc123'),
+    shopOwner: 'No'
+  }, ).fetch();
+
   // Add Ryan as one of him's friends
   await User.addToCollection(him.id, 'friends', ryanDahl.id);
   // Add Him as one of Ryan's friends
   await User.addToCollection(ryanDahl.id, 'friends', him.id);
+
+  await News.create({
+    newsName: "e-Clinic v1.1.0",
+    newsDetail: "- SailsJS -VueJs - MongoDB ",
+    date: "Tue Jun 11 2019 15:05:44 GMT+0800 (Hong Kong Standard Time)",
+    imageSrc: "https://cdn.lynda.com/course/672254/672254-636934151583926532-16x9.jpg",
+    newsSrc: "https://cdn.lynda.com/course/672254/672254-636934151583926532-16x9.jpg",
+    owner: "1"
+  }).fetch();
+
+  await Event.create({
+    eventName: "Babyganics 「認識家居致敏原及寶寶洗護技巧教室」健康講座",
+    eventDetail: "日期：2019年4月30日 (星期二)時間：7:30pm – 9:30pm (7:15pm開始接受登記)地點：香港科學館演講廳對象：準爸媽/育有初生嬰兒之家長講者：資深註冊護士林小慧姑娘講座內容：認識家居致敏原及寶寶洗護技巧護理濕疹及皮膚問題嬰兒過敏症徵狀及風險初生嬰兒日常洗護技巧及示範另設問答環節",
+    date: "2019-04-30",
+    imageSrc: "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F59449020%2F253604668432%2F1%2Foriginal.20190401-070338?w=800&auto=compress&rect=0%2C0%2C2160%2C1080&s=28afc0819c7bf1f6806a133c21d6111e",
+    eventSrc: "https://www.eventbrite.com/e/babyganics-tickets-59518797325?aff=erelexpmlt",
+    owner: "1"
+  }).fetch();
+
 
 
   //create things
   // await Thing.createEach([
   //   {
   //     label: 'admin_him',
-  //     owner: him.id 
+  //     owner: him.id
   //   },
   //   {
   //     label: 'admin_him1',
-  //     owner: him.id 
+  //     owner: him.id
   //   },
   //   {
   //     label: 'admin_him2',
-  //     owner: him.id 
+  //     owner: him.id
   //   },
   //   {
   //     label: 'ryan',
@@ -121,15 +161,15 @@ module.exports.bootstrap = async function (done) {
   // await Event.createEach([
   //   {
   //     label: '11111111111',
-  //     owner: him.id 
+  //     owner: him.id
   //   },
   //   {
   //     label: '22222222222',
-  //     owner: him.id 
+  //     owner: him.id
   //   },
   //   {
   //     label: '33333333333',
-  //     owner: him.id 
+  //     owner: him.id
   //   },
   //   {
   //     label: 'ryan',

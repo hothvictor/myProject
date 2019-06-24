@@ -36,7 +36,7 @@ module.exports = {
     success: {
       outputDescription: 'information about the created record',
       outputType: {
-        id: 'string',
+        id: 'number',
         // imageSrc: 'string'
       }
     },

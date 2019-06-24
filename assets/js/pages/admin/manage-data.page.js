@@ -112,6 +112,7 @@ parasails.registerPage('manage-data', {
       this.shops = _.reject(this.shops, {
         id: result.id
       })
+
       this.shops.push({
         id: result.id,
         owner: this.approveFromData.owner,
@@ -119,7 +120,7 @@ parasails.registerPage('manage-data', {
         status: 'Accepted',
 
       })
-      console.log('ok, shop approved! ShopId:', result.id);
+      console.log('ok, shop approved! ShopId:', result.id, result);
       // _.push(this.datas, {
       //   status: 'Accepted'
       // });
@@ -163,6 +164,8 @@ parasails.registerPage('manage-data', {
       this.shops = _.reject(this.shops, {
         id: result.id
       })
+
+
       this.shops.push({
         id: result.id,
         owner: this.rejectFormData.owner,

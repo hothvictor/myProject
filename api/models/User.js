@@ -70,8 +70,8 @@ So, while this \`isSuperAdmin\` demarcation might not be the right approach fore
       example: 1502844074211
     },
 
-    stripeCustomerId: {
-      type: 'string',
+    stripeCustomerid: {
+      type: 'number',
       protect: true,
       description: 'The id of the customer entry in Stripe associated with this user (or empty string if this user is not linked to a Stripe customer -- e.g. if billing features are not enabled).',
       extendedDescription: `Just because this value is set doesn't necessarily mean that this user has a billing card.

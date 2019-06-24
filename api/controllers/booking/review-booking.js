@@ -10,7 +10,7 @@ module.exports = {
   inputs: {
 
     bookingId: {
-      type: 'string',
+      type: 'number',
       required: true
     },
 
@@ -20,7 +20,7 @@ module.exports = {
     },
 
     shopId: {
-      type: 'string',
+      type: 'number',
       required: true
     },
 
@@ -41,7 +41,7 @@ module.exports = {
     success: {
       outputDescription: 'information about the created record',
       outputType: {
-        bookingid: 'string',
+        bookingId: 'number',
       }
     },
 

@@ -22,12 +22,12 @@ module.exports = {
       owner: this.req.me.id
     }).sort({
       'id': -1
-    }).populate('shop').populate('owner').populate('customer')
+    }).populate('shop').populate('owner').populate('customer');
 
     // user
     var books = await Booking.find({
       customer: this.req.me.id
-    }).populate('shop')
+    }).populate('shop');
 
 
     // Respond with view.

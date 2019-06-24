@@ -96,10 +96,12 @@
             <% if(me.isSuperAdmin === true) { %>
             <a class="dropdown-item" href="/admin">Management</a>
             <% } %>
-            <% if(me.shopOwner == 'Yes' || me.isSuperAdmin === true) { %>
+            <% if(me.shopOwner == 'Yes' && me.isSuperAdmin !== true) { %>
             <a class="dropdown-item" href="/waiting-time">Waiting time</a>
             <% } %>
+            <% if(me.isSuperAdmin !== true) { %>
             <a class="dropdown-item" href="/booking">Appointment</a>
+            <% } %>
             <a class="dropdown-item" href="/account">Settings</a>
             <a class="dropdown-item" href="/logout">Sign out</a>
           </div>

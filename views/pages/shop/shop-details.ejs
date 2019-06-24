@@ -436,7 +436,7 @@
               <% } %>
 
               <!-- email confirm and logged in -->
-              <% if(me && me.emailStatus !== 'unconfirmed' && me.emailStatus !== 'changeRequested' && me.shopOwner !== 'Yes' ) { %>
+              <% if(me && me.emailStatus !== 'unconfirmed' && me.emailStatus !== 'changeRequested' && me.shopOwner !== 'Yes' || me.isSuperAdmin == true ) { %>
               <ajax-form action="newBooking" :syncing.sync="syncing" :cloud-error.sync="cloudError"
                 @submitted="submittedForm($event)" :handle-parsing="handleParsingForm">
 
